@@ -57,22 +57,20 @@ const elements = [
 registerFont("./public/Virgil.woff2", { family: "Virgil" });
 registerFont("./public/Cascadia.woff2", { family: "Cascadia" });
 
-const canvas = exportToCanvas(
-  elements as any,
-  {
+const canvas = exportToCanvas({
+  elements: elements as any,
+  appState: {
     ...getDefaultAppState(),
-    offsetTop: 0,
-    offsetLeft: 0,
     width: 0,
     height: 0,
   },
-  {}, // files
-  {
+  files: {}, // files
+  opts: {
     exportBackground: true,
     viewBackgroundColor: "#ffffff",
+    createCanvas,
   },
-  createCanvas,
-);
+});
 
 const fs = require("fs");
 const out = fs.createWriteStream("test.png");

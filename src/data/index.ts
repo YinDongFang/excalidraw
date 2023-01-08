@@ -15,7 +15,7 @@ import { serializeAsJSON } from "./json";
 export { loadFromBlob } from "./blob";
 export { loadFromJSON, saveAsJSON } from "./json";
 
-export const exportCanvas = async (
+export const exportAsImage = async (
   type: Omit<ExportType, "backend">,
   elements: readonly NonDeletedExcalidrawElement[],
   appState: AppState,
@@ -66,10 +66,15 @@ export const exportCanvas = async (
     }
   }
 
-  const tempCanvas = await exportToCanvas(elements, appState, files, {
-    exportBackground,
-    viewBackgroundColor,
-    exportPadding,
+  const tempCanvas = await exportToCanvas({
+    elements,
+    appState,
+    files,
+    opts: {
+      exportBackground,
+      viewBackgroundColor,
+      exportPadding,
+    },
   });
   tempCanvas.style.display = "none";
   document.body.appendChild(tempCanvas);

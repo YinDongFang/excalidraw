@@ -5,7 +5,6 @@ import { Dialog } from "./Dialog";
 import { t } from "../i18n";
 
 import { AppState, LibraryItems, LibraryItem } from "../types";
-import { exportToCanvas } from "../packages/utils";
 import {
   EXPORT_DATA_TYPES,
   EXPORT_SOURCE,
@@ -19,6 +18,7 @@ import SingleLibraryItem from "./SingleLibraryItem";
 import { canvasToBlob, resizeImageFile } from "../data/blob";
 import { chunk } from "../utils";
 import DialogActionButton from "./DialogActionButton";
+import { exportToCanvas } from "../scene/export";
 
 interface PublishLibraryDataParams {
   authorName: string;
@@ -87,7 +87,9 @@ const generatePreviewImage = async (libraryItems: LibraryItems) => {
     const itemCanvas = await exportToCanvas({
       elements: item.elements,
       files: null,
-      maxWidthOrHeight: BOX_SIZE,
+      opts: {
+        maxWidthOrHeight: BOX_SIZE,
+      },
     });
 
     const { width, height } = itemCanvas;

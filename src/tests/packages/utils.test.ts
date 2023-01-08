@@ -3,6 +3,7 @@ import { diagramFactory } from "../fixtures/diagramFixture";
 import * as mockedSceneExportUtils from "../../scene/export";
 import { MIME_TYPES } from "../../constants";
 
+import { exportToCanvas } from "../../scene/export";
 jest.mock("../../scene/export", () => ({
   __esmodule: true,
   ...jest.requireActual("../../scene/export"),
@@ -13,7 +14,7 @@ describe("exportToCanvas", () => {
   const EXPORT_PADDING = 10;
 
   it("with default arguments", async () => {
-    const canvas = await utils.exportToCanvas({
+    const canvas = await exportToCanvas({
       ...diagramFactory({ elementOverrides: { width: 100, height: 100 } }),
     });
 
@@ -22,9 +23,11 @@ describe("exportToCanvas", () => {
   });
 
   it("when custom width and height", async () => {
-    const canvas = await utils.exportToCanvas({
+    const canvas = await exportToCanvas({
       ...diagramFactory({ elementOverrides: { width: 100, height: 100 } }),
-      getDimensions: () => ({ width: 200, height: 200, scale: 1 }),
+      opts: {
+        getDimensions: () => ({ width: 200, height: 200, scale: 1 }),
+      },
     });
 
     expect(canvas.width).toBe(200);
